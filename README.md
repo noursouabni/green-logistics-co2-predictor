@@ -116,14 +116,11 @@ This path assumes the notebook is launched from the repository root. If you run 
 
 ## Limitations
 
-- The dataset appears to be synthetic or generated, so results may not generalize to real delivery operations.
-- The units of CO₂ emissions and cargo weight are not documented.
-- The dataset does not provide enough information to establish real-world fuel costs, vehicle capacities, or route availability.
-- Optimization results are model predictions, not measured emission reductions.
-- A model-based optimizer can exploit prediction errors, so proposed configurations should be validated before practical use.
+- The dataset is synthetic
+- Optimization results are model predictions! not measured emission reductions
+- A model-based optimizer can exploit prediction errors, so proposed configurations should be validated before practical use. (ofc)
 
-The goal is therefore to explore how machine learning can support delivery optimization, rather than to claim verified real-world emission savings.
-
+The goal is therefore to explore how machine learning can support delivery optimization (not real-world savings)
 ## Technologies
 
 Python · pandas · NumPy · scikit-learn · Matplotlib · Jupyter Notebook
