@@ -1,65 +1,135 @@
-# Machine Learning for CO₂ Emission Optimization in Delivery Logistics
+# Machine Learning for Sustainable Delivery Logistics
+
+A machine learning project that predicts CO₂ emissions from delivery operations and explores how delivery decisions can be optimized to reduce predicted emissions while respecting travel-time constraints.
 
 ## Overview
 
-This project explores how machine learning can help identify delivery configurations with lower predicted CO₂ emissions.
+Delivery operations involve several decisions, including vehicle selection, road type, departure time, and driving speed. These choices can affect both travel time and fuel-related emissions.
 
-Using a dataset of around 100,000 delivery records, we analyze the factors associated with emissions, train regression models, and use their predictions to compare possible delivery configurations under a travel-time constraint.
+This project uses machine learning to estimate delivery CO₂ emissions and investigate how different operational decisions may reduce them without significantly increasing travel time.
 
-The project also examines the limitations of the dataset and how they affect the optimization results.
+The project combines predictive modeling, exploratory data analysis, and constrained optimization.
 
-## Project Workflow
+## Objectives
 
-1. **Data preprocessing:** Check data quality, handle missing values and duplicates, and prepare features for modeling.
-2. **Exploratory data analysis:** Explore the main variables, visualize their distributions, and investigate relationships between delivery characteristics and emissions.
-3. **Machine learning:** Train and compare regression models using standard evaluation metrics.
-4. **Optimization:** Search for delivery configurations with lower predicted emissions while respecting a travel-time limit.
-5. **Evaluation:** Compare the proposed configurations with the original ones and examine how the results change under different constraints.
+- Analyze the factors associated with delivery CO₂ emissions.
+- Train and compare regression models to predict emissions.
+- Identify the most influential input features.
+- Optimize delivery configurations while respecting a travel-time constraint.
+- Evaluate how sensitive the proposed decisions are to changes in traffic, distance, cargo, and available time.
+
+## Methodology
+
+### 1. Data exploration and preparation
+
+The dataset is examined for missing values, duplicates, unusual values, and relationships between variables. Additional features are created where useful, including cyclic representations of departure time and interaction features.
+
+### 2. Machine learning
+
+Several regression models are compared using a training, validation, and test split:
+
+- Dummy Regressor as a baseline
+- Ridge Regression
+- Ridge Regression with interaction features
+- Random Forest Regressor
+- HistGradientBoosting Regressor
+
+Models are evaluated using **MAE**, **RMSE**, and **R²**. The validation set is used for model selection, while the test set is reserved for final evaluation.
+
+### 3. Feature analysis
+
+Feature relationships and model behavior are examined using correlation analysis, visualizations, model diagnostics, and permutation importance.
+
+The analysis also investigates potential data leakage and whether the dataset's emission values follow a simple mathematical relationship.
+
+### 4. Constrained optimization
+
+The project explores two optimization approaches.
+
+**Delivery configuration optimization**
+
+Candidate vehicle types, road types, departure hours, and driving speeds are evaluated to find configurations with lower predicted emissions, subject to a limit on travel-time increases.
+
+**Traffic and route scenarios**
+
+Hypothetical traffic reductions and route detours are evaluated to investigate when a longer route might be worthwhile under the selected emission and travel-time objectives.
+
+The proposed decisions are also checked for sensitivity to different constraints and evaluated using an alternative predictive model.
 
 ## Dataset
 
-The project uses `logistics_co2_dataset.csv`, which contains approximately 100,000 records and 19 columns.
+The project uses `logistics_co2_dataset.csv`, containing approximately 100,000 delivery records.
 
-The dataset includes delivery distance, average speed, traffic, cargo weight, vehicle type, road type, weather conditions, travel time, and CO₂ emissions.
+The dataset includes variables related to delivery distance, vehicle and road types, traffic, departure time, cargo, travel time, and CO₂ emissions.
 
-Some details, including the units of measurement and the meanings of certain category codes, are not provided. The analysis therefore takes these limitations into account when interpreting the results.
+Some dataset details require caution: the emission units and cargo-weight units are not specified, and the meanings of certain categorical codes are unclear. The data also appears to contain generated relationships between variables, which are investigated during the analysis.
 
-## Project Structure
+## Repository Structure
 
 ```text
-.
-├── logistics_co2_dataset.csv
-├── logistics_co2_optimization.ipynb
-├── requirements.txt
-└── README.md
+green-logistics-co2-predictor/
+├── data/
+│   └── logistics_co2_dataset.csv
+├── notebook/
+│   └── green-logistics-co2-predictor.ipynb
+├── README.md
+└── requirements.txt
 ```
 
 ## Getting Started
 
-Clone the repository and install the required packages:
+### Requirements
+
+- Python 3.10 or later
+- Jupyter Notebook or JupyterLab
+
+### Installation
+
+Clone the repository:
 
 ```bash
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/noursouabni/green-logistics-co2-predictor.git
+cd green-logistics-co2-predictor
+```
+
+Install the required packages:
+
+```bash
 pip install -r requirements.txt
 ```
 
-Place `logistics_co2_dataset.csv` in the project folder, open the notebook in Jupyter or Google Colab, and run the cells in order.
+Launch JupyterLab:
 
-## Tools
+```bash
+jupyter lab
+```
 
-- Python
-- Pandas and NumPy
-- Matplotlib
-- Scikit-learn
-- Jupyter Notebook
+Open the notebook in the `notebook/` directory and run the cells in order.
+
+Make sure the dataset path in the notebook points to:
+
+```python
+DATA_PATH = Path("data/logistics_co2_dataset.csv")
+```
+
+This path assumes the notebook is launched from the repository root. If you run it from another directory, adjust the path accordingly.
 
 ## Limitations
 
-The dataset does not provide alternative routes for the same delivery, detailed vehicle specifications, or emission units. Some variables also appear to follow simplified patterns, which raises questions about how closely the data represent real delivery operations.
+- The dataset appears to be synthetic or generated, so results may not generalize to real delivery operations.
+- The units of CO₂ emissions and cargo weight are not documented.
+- The dataset does not provide enough information to establish real-world fuel costs, vehicle capacities, or route availability.
+- Optimization results are model predictions, not measured emission reductions.
+- A model-based optimizer can exploit prediction errors, so proposed configurations should be validated before practical use.
 
-For this reason, the optimization results are treated as model-based estimates rather than evidence of actual emission reductions.
+The goal is therefore to explore how machine learning can support delivery optimization, rather than to claim verified real-world emission savings.
 
-## Objective
+## Technologies
 
-The goal is to study how predictive models can be used in a constrained optimization problem and to understand what the available data can, and cannot, tell us about lower-emission delivery decisions.
+Python · pandas · NumPy · scikit-learn · Matplotlib · Jupyter Notebook
+
+## Author
+
+Nour Souabni
+
+Master's student in Artificial Intelligence, Data & Agentic Systems at Paris Dauphine-PSL.
